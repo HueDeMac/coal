@@ -1,11 +1,10 @@
 {
   "name": "nodeorm",
   "version": "1.0.0",
-  "description": "Node ORM Laravel Eloquent ka Copy",
-  "main": "index.js",
+  "description": "Simple node ORM",
+  "main": "Model.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+
   },
   "repository": {
     "type": "git",
