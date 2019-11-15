@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Simple node ORM",
   "main": "Model.js",
-  "scripts": {
-
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/HueDeMac/nodeorm.git"
@@ -14,5 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "mysql": "github:mysqljs/mysql"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.7",
+    "@types/mysql": "^2.15.8"
   }
 }
