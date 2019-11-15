@@ -1,2 +1,2 @@
-# nodeorm
-Node ORM
+# Coal
+Simple Node ORM
