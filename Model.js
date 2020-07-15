@@ -1,44 +1,72 @@
-const { connection } = require('./nodeorm')
+const { connection } = require('./nodeorm');
 
-class Model{
+class Model {
 
-    constructor(){
-        this.connection = connection;
-        this.selectArr = []
-        this.whereArr = []
-    }
+	static table = ''
+	static connection = connection;
 
-    get(){
-    	return new Promise((resolve,reject)=>{
-    		let query = 'select '
-    		if(this.selectArr.length > 0){
-    			query += this.selectArr.join(',')
-    		}else{
-    			query += '*'
-    		}
-    		query += ' from ' + this.table + ' '
-    		if(this.whereArr.length > 0){
-    			this.whereArr.forEach(element=>{
-    				query += element
-    			})
-    		}
-    		this.executeQuery()
-    	})
-    }
-
-    executeQuery(query){
-    	new Promise((resolve,reject)=>{
-
+	static find(id) {
+		return new Promise((resolve, reject) => {
+			this.connection.query('SELECT * FROM ' + this.table + ' where id=' + id, (err, res) => {
+				if (err) {
+					reject(err)
+				} else {
+					resolve(res)
+				}
+			})
 		})
-    }
+	}
 
-    where(column,condition,value){
-    	this.whereArr.push({
-    		'column': column,
-    		'condition': condition,
-    		'value': value
-    	})
-    }
+	static all() {
+		return new Promise((resolve, reject) => {
+			this.connection.query('SELECT * FROM ' + this.table, (err, res, fld) => {
+				if (err) {
+					reject(err)
+				} else {
+					const outputArray = []
+					res.forEach(item => {
+						const obj = new this
+						for (const prop in item) {
+							obj[prop] = item[prop]
+						}
+						outputArray.push(obj)
+					})
+
+					resolve(outputArray)
+				}
+			})
+		})
+	}
+
+	save() {
+		if (this.id) {
+			this.constructor.connection.query('UPDATE ' + this.constructor.table + ' SET ? where id=' + this.id,this)
+		} else {
+			this.constructor.connection.query('INSERT INTO ' + this.constructor.table + ' SET ?', this, (e, r, f) => {
+				if(e) throw e
+				else 
+				this.id = r.insertId
+			})
+		}
+	}
+
+	static create(inputs) {
+		return new Promise((resolve, reject) => {
+			const qry = 'INSERT INTO ' + this.table + ' SET ?'
+			this.connection.query(qry, inputs, (e, r, f) => {
+				if (e) {
+					reject(e)
+				} else {
+					const obj = new this
+					for (let p in inputs) {
+						obj[p] = inputs[p]
+					}
+					obj.id = r.insertId
+					resolve(obj)
+				}
+			})
+		})
+	}
 }
 
 module.exports = { Model }
