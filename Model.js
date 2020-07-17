@@ -39,15 +39,22 @@ class Model {
 	}
 
 	save() {
-		if (this.id) {
-			this.constructor.connection.query('UPDATE ' + this.constructor.table + ' SET ? where id=' + this.id,this)
-		} else {
-			this.constructor.connection.query('INSERT INTO ' + this.constructor.table + ' SET ?', this, (e, r, f) => {
-				if(e) throw e
-				else 
-				this.id = r.insertId
-			})
-		}
+		return new Promise((resolve,reject) => {
+			if (this.id) {
+				this.constructor.connection.query('UPDATE ' + this.constructor.table + ' SET ? where id=' + this.id,this, (e,r) => {
+					if(e) reject(e)
+					else resolve(r)
+				})
+			} else {
+				this.constructor.connection.query('INSERT INTO ' + this.constructor.table + ' SET ?', this, (e, r, f) => {
+					if(e) reject(e)
+					else {
+						this.id = r.insertId
+						resolve(r)
+					}
+				})
+			}
+		})
 	}
 
 	static create(inputs) {
