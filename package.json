@@ -1,6 +1,6 @@
 {
-  "name": "nodeorm",
-  "version": "1.0.0",
+  "name": "coal",
+  "version": "0.0.1",
   "description": "Simple node ORM",
   "main": "Model.js",
   "scripts": {},
