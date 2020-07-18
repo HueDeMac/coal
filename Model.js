@@ -105,6 +105,14 @@ class Model {
 		})
 	}
 
+	delete(){
+		return new Promise((resolve,reject) => {
+			if(this.id) {
+				this.constructor.connection.query('DELETE from' + '')
+			}
+		})
+	}
+
 	static create(inputs) {
 		return new Promise((resolve, reject) => {
 			const qry = 'INSERT INTO ' + this.table + ' SET ?'
