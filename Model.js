@@ -1,7 +1,9 @@
 const {connection} = require('./nodeorm');
 const {isNullOrUndefined, isArray, isNull} = require('util');
+const {OneToMany} = require('./relations/OneToMany')
 
-class Model {
+
+class Model extends OneToMany{
 
 
     static table = ''
@@ -62,7 +64,7 @@ class Model {
             this.connection.query(this.sql(), (e, r, f) => {
                 if (e) reject(e)
                 else {
-                    const data = this.dto(res)
+                    const data = this.dto(r)
                     isNull(data) ? resolve([]) : resolve(data)
                 }
             })
