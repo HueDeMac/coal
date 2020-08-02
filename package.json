@@ -2,7 +2,7 @@
   "name": "coal",
   "version": "0.0.1",
   "description": "Simple node ORM",
-  "main": "Model.js",
+  "main": "main.js",
   "scripts": {},
   "repository": {
     "type": "git",
