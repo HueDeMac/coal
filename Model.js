@@ -1,9 +1,9 @@
 const {connection} = require('./nodeorm');
 const {isNullOrUndefined, isArray, isNull} = require('util');
-const {OneToMany} = require('./relations/OneToMany')
+const {Relationships} = require('./relations/Relationships')
 
 
-class Model extends OneToMany{
+class Model extends Relationships{
 
 
     static table = ''
