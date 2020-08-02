@@ -164,7 +164,7 @@ class Model extends OneToMany{
     }
 
     static dto(res, returnArray = true) {
-        if (isArray(res) && res.length > 0) {
+        if (Array.isArray(res) && res.length > 0) {
             const output = []
             res.forEach(item => {
                 let obj = new this
