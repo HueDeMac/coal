@@ -1,23 +1,9 @@
 const { connection } = require('../nodeorm')
 
-class Collection {
-
-    constructor(items = []) {
-        this.items = items
-    }
+class Collection extends Array {
 
     size() {
-        return this.items.length
-    }
-
-    reverse() {
-        return this.items.reverse()
-    }
-
-    sort(type = 'asc') {
-        return this.items.sort(function (a, b) {
-            return type.toLowerCase() === 'asc' ? a > b ? 1 : -1 : b > a ? 1 : -1
-        })
+        return this.length
     }
 
     avg() {
@@ -25,9 +11,17 @@ class Collection {
     }
 
     sum() {
-        return this.items.reduce(function (sum, item) {
+        return this.reduce(function (sum, item) {
             return sum + item
         })
+    }
+
+    first() {
+        return this.length > 1 ? this[0] : null
+    }
+
+    last() {
+        return this.length > 1 ? this[this.length - 1] : null
     }
 
 }

@@ -1,9 +1,10 @@
-const {connection} = require('./nodeorm');
-const {isNullOrUndefined, isArray, isNull} = require('util');
-const {Relationships} = require('./relations/Relationships')
+const { connection } = require('./nodeorm');
+const { isNullOrUndefined, isArray, isNull } = require('util');
+const { Relationships } = require('./relations/Relationships')
+const { Collection } = require('./utilities/Collection')
 
 
-class Model extends Relationships{
+class Model extends Relationships {
 
 
     static table = ''
@@ -165,22 +166,17 @@ class Model extends Relationships{
 
     static dto(res, returnArray = true) {
         if (Array.isArray(res) && res.length > 0) {
-            const output = []
+            const collect = new Collection()
             res.forEach(item => {
                 let obj = new this
-                for (const prop in item) {
-                    obj[prop] = item[prop]
-                }
-                output.push(obj)
+                Object.assign(obj, item)
+                collect.push(obj)
             })
-            if (!returnArray && output.length === 1) {
-                return output[0]
-            }
-            return output
+            return returnArray ? collect : collect.first()
         } else {
             return null
         }
     }
 }
 
-module.exports = {Model}
+module.exports = { Model }
